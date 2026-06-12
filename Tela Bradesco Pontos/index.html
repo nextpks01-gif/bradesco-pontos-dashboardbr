@@ -495,6 +495,67 @@
       overflow: hidden;
     }
 
+    .quiz-entry-title {
+      display: grid;
+      gap: 10px;
+      margin: -8px -8px 26px;
+      padding: 22px;
+      border: 1px solid #d8dee8;
+      border-radius: 8px;
+      background: #f1f3f6;
+      box-shadow: 0 14px 34px rgba(23, 32, 42, 0.08);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .quiz-entry-title:hover {
+      border-color: #c3ccd9;
+      box-shadow: 0 18px 42px rgba(23, 32, 42, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .quiz-entry-title h3 {
+      margin: 0;
+      color: #111827;
+      font-size: clamp(1.45rem, 4vw, 2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    .quiz-entry-title p {
+      margin: 0;
+      color: #5d687a;
+      line-height: 1.55;
+      font-size: 0.98rem;
+    }
+
+    .quiz-entry-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .entry-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: min(100%, 330px);
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 8px;
+      background: #eef1f5;
+      color: #3d4656;
+      font-size: 0.82rem;
+      font-weight: 850;
+    }
+
+    .entry-pill.primary {
+      background: #111827;
+      color: #fff;
+    }
+
     .quiz-stage {
       display: none;
       animation: fadeSlide 0.35s ease both;
@@ -509,9 +570,20 @@
       font-size: 1.55rem;
     }
 
+    .client-type-title {
+      text-align: center;
+      text-transform: uppercase;
+    }
+
     .quiz-stage p {
       color: var(--muted);
       line-height: 1.6;
+    }
+
+    .quiz-stage p.form-start-text {
+      color: #145b3d;
+      font-weight: 750;
+      text-align: center;
     }
 
     .choice-grid {
@@ -523,7 +595,7 @@
 
     .choice {
       min-height: 112px;
-      border: 1px solid var(--line);
+      border: 1px solid #111827;
       border-radius: 8px;
       padding: 18px;
       background: #fff;
@@ -1163,10 +1235,6 @@
         white-space: nowrap;
       }
 
-      .nav a[href="clientes.html"] {
-        display: none;
-      }
-
       .hero {
         background:
           linear-gradient(180deg, rgba(16, 24, 40, 0.86), rgba(89, 19, 40, 0.84)),
@@ -1258,6 +1326,11 @@
       .quiz-card {
         min-height: auto;
         padding: 20px;
+      }
+
+      .quiz-entry-title {
+        margin: -2px -2px 22px;
+        padding: 18px;
       }
 
       .quiz-stage h3 {
@@ -1402,7 +1475,6 @@
         <a href="#como-funciona">Como Funciona</a>
         <a href="#beneficios">Benefícios</a>
         <a href="#faq">Dúvidas</a>
-        <a href="clientes.html">Dashboard</a>
       </nav>
 
       <a class="btn btn-primary" href="#como-funciona">Consultar pontos</a>
@@ -1487,9 +1559,17 @@
           </aside>
 
           <form class="quiz-card" id="secureQuiz">
+            <div class="quiz-entry-title">
+              <div class="quiz-entry-meta">
+                <span class="entry-pill primary">Início do resgate</span>
+              </div>
+              <h3>Consulta e resgate aqui</h3>
+              <p>Comece por esta etapa para consultar seus pontos disponíveis e seguir com a solicitação de resgate.</p>
+            </div>
+
             <div class="quiz-stage active" data-step="1">
-              <h3>Qual é o tipo de cliente?</h3>
-              <p>Essa informação ajuda a direcionar o atendimento sem solicitar documentos completos.</p>
+              <h3 class="client-type-title">Qual é o tipo de cliente?</h3>
+              <p class="form-start-text">Preencha este formulário corretamente para consultar e resgatar seus pontos agora.</p>
               <div class="choice-grid">
                 <button class="choice" type="button" data-field="cliente" data-value="Pessoa Física">
                   <strong>Pessoa Física</strong>
